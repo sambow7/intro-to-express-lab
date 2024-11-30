@@ -1,5 +1,4 @@
 const express = require("express")
-
 const app = express()
 
 app.get("/", (req,res) => {
@@ -10,16 +9,25 @@ app.get("/greetings", (req,res) => {
   res.send("Mic check 1...2");
 });
 
-app.get("/greetings/:nameId", (req,res) => {
-  res.send("What a delight it is to see you once more, Mathilda.");
+app.get("/greetings/:greetingsName", (req,res) => {
+  console.log(req.params.greetingsName);
+
+  res.send(`What a delight it is to see you once more, ${req.params.greetingsName}`);
+
 });
 
-app.get("/roll/:rollId", (req,res) => {
-  res.send("You rolled a 14.");
+app.get("/roll/:rollNumber", (req,res) => {
+  console.log(req.params.rollNumber);
+
+  res.send(`You rolled a ${req.params.rollNumber}`);
+  
 });
 
-app.get("/collectibles/:indexId", (req,res) => {
+app.get("/collectibles/:collectibleIndex", (req,res) => {
+  console.log(req.params.collectibleIndex);
+
   res.send("So, you want the shiny ball? For 5.95, it can be yours!");
+
 });
 
 app.listen(3000, () => {
