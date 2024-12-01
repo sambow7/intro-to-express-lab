@@ -58,20 +58,32 @@ app.get("/collectibles/:collectibleIndex", (req, res) => {
   }
 });
 
-app.get('/shoes', (req, res) => {
-  res.send(`Only, ${req.query.price} for your ${req.query.name}!`);
-});
-
-// Filter shoes
+// SHOE FILTER
 app.get("/shoes", (req, res) => {
   let filteredShoes = shoes;
 
-  // Filter by min-price
   if (req.query['min-price']) {
     const minPrice = parseFloat(req.query['min-price']);
     if (!isNaN(minPrice)) {
       filteredShoes = filteredShoes.filter(shoe => shoe.price >= minPrice);
     }
+  }
+
+  if (req.query['max-price']) {
+    const maxPrice = parseFloat(req.query['max-price']);
+    if (!isNaN(maxPrice)) {
+      filteredShoes = filteredShoes.filter(shoe => shoe.price <= maxPrice);
+    }
+  }
+
+  if (req.query.type) {
+    filteredShoes = filteredShoes.filter(shoe => shoe.type.toLowerCase() === req.query.type.toLowerCase());
+  }
+
+  if (filteredShoes.length > 0) {
+    res.json(filteredShoes);
+  } else {
+    res.send("No shoes match your criteria.");
   }
 });
 
