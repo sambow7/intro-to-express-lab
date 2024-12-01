@@ -62,6 +62,18 @@ app.get('/shoes', (req, res) => {
   res.send(`Only, ${req.query.price} for your ${req.query.name}!`);
 });
 
+// Filter shoes
+app.get("/shoes", (req, res) => {
+  let filteredShoes = shoes;
+
+  // Filter by min-price
+  if (req.query['min-price']) {
+    const minPrice = parseFloat(req.query['min-price']);
+    if (!isNaN(minPrice)) {
+      filteredShoes = filteredShoes.filter(shoe => shoe.price >= minPrice);
+    }
+  }
+});
 
 //------------
 //  LISTENER
